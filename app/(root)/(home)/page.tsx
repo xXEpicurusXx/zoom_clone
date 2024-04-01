@@ -1,5 +1,7 @@
+"use client"
+
+import React, { useEffect, useState } from 'react';
 import MeetingTypeList from "@/components/MeetingTypeList";
-import React from "react";
 
 interface TimeOptions {
   hour12: boolean;
@@ -9,7 +11,20 @@ interface TimeOptions {
 }
 
 const Home = () => {
-  const now = new Date();
+  const [time, setTime] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+      setDate(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   const options: TimeOptions = {
     hour12: true,
     hour: "numeric",
@@ -17,9 +32,9 @@ const Home = () => {
     hourCycle: "h12",
   };
 
-  const time = now.toLocaleTimeString("en-US", options);
-  const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full" }).format(
-    now
+  const formattedTime = time.toLocaleTimeString("en-US", options);
+  const formattedDate = new Intl.DateTimeFormat("en-US", { dateStyle: "full" }).format(
+    date
   );
 
   return (
@@ -30,8 +45,8 @@ const Home = () => {
             Upcoming Meeting at: 12:30 PM
           </h2>
           <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-extrabold lg:text-7xl">{time}</h1>
-            <p className="text-lg font-medium text-sky-1 lg:text-2xl">{date}</p>
+            <h1 className="text-4xl font-extrabold lg:text-7xl">{formattedTime}</h1>
+            <p className="text-lg font-medium text-sky-1 lg:text-2xl">{formattedDate}</p>
           </div>
         </div>
       </div>
@@ -42,4 +57,3 @@ const Home = () => {
 };
 
 export default Home;
-
