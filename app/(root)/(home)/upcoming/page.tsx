@@ -1,4 +1,4 @@
-import CallList from "@/components/CallLIst";
+import CallList from "@/components/CallList";
 
 const UpcomingPage = () => {
   return (
